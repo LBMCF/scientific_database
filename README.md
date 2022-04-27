@@ -6,7 +6,7 @@ Use the script _[create_database.sql](./create_database.sql)_    to create the d
 
 ## Database configuration file
 You must properly configure the _config_app.py_ file
-```{python}
+```
     DATABASE_CONFIG = {'host': '',
                        'user': 'lbmcf',
                        'password': '',
@@ -33,6 +33,11 @@ You must properly configure the _config_db.py_ file
 - **query_pubmed**: Keywords to search PubMed
 - **crossref**: Flag (True or False) that allows complementary data searches from [Crossref](https://www.crossref.org). (Default: False)
 - **first_time**: Flag (True or False) that indicates if it is the first time the application will be executed (Back-end). (Default: False)
+
+## Running the application
+```
+  $ python3 main.py
+```
 
 ## Author
 
