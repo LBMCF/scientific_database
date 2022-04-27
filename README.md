@@ -7,11 +7,6 @@ Use the script _[create_database.sql](./create_database.sql)_    to create the d
 ## Database configuration file
 You must properly configure the _[config_app.py](./config_app.py)_ file
 ```
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
-class Config_DB(object):
-
     DATABASE_CONFIG = {'host': '',
                        'user': 'lbmcf',
                        'password': '',
@@ -25,11 +20,6 @@ class Config_DB(object):
 ## Application configuration file (Back-end)
 You must properly configure the _[config_db.py](./config_db.py)_ file
 ```
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
-class Config_App(object):
-
     APP_CONFIG = {'python_path': '',
                   'app_path': '',
                   'query_scopus': '',
