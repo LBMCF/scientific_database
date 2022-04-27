@@ -27,7 +27,7 @@ class Scopus:
         self.OUTPUT_PATH = os.path.join(self.ROOT, 'log_app')
 
         # Scopus
-        self.API_KEY = '2d6a947f171edb59b9c211db7430d8a4'
+        self.API_KEY = Config_App.APP_CONFIG['api_key_scopus']
         self.APPLICATION_TYPE = 'application/json'
         self.REQUEST_COUNT = 25
         self.REQUEST_START = 0
@@ -280,6 +280,26 @@ class Scopus:
                                 self.odb.DB_PUBLICATION_LOG_MESSAGE: warning_message,
                                 self.odb.DB_PUBLICATION_LOG_STATUS: self.odb.DB_CONST_STATUS_FAILED}
                     self.odb.update_publication_log(dict_log)
+            else:
+                _json_error = {}
+                try:
+                    _json_error = json.loads(response.text)
+                except Exception as e:
+                    pass
+
+                if _json_error:
+                    _error_code = ''
+                    _error_message = ''
+                    if 'service-error' in _json_error:
+                        _error_code = _json_error['service-error']['status']['statusCode']
+                        _error_message = _json_error['service-error']['status']['statusText']
+                    elif 'error-response' in _json_error:
+                        _error_code = _json_error['error-response']['error-code']
+                        _error_message = _json_error['error-response']['error-message']
+
+                    raise Exception('[APIKEY-SCOPUS ERROR]: %s' % _error_message)
+                else:
+                    raise Exception('[URL ERROR]: %s' % requestURL)
         except Timeout:
             warning_message = '[ERROR]: [Timeout]: %s' % traceback.format_exc()
             dict_publications.update({self.KEY_OUTPUTMESSAGE: warning_message})         

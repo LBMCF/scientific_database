@@ -26,7 +26,7 @@ class Pubmed:
         # Entrez
         self.EMAIL = 'youremail@domain.com'
         self.DATABASE = 'pubmed'
-        self.API_KEY = 'd88167c0f75eefa9c19084f762af9346bf08' 
+        self.API_KEY = Config_App.APP_CONFIG['api_key_pubmed']
 
         # Fields
         self.PUBMED_PUBMED_ID = 'PMID'
