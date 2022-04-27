@@ -7,5 +7,7 @@ class Config_App(object):
                   'app_path': '',
                   'query_scopus': '',
                   'query_pubmed': '',
+                  'api_key_scopus': '',
+                  'api_key_pubmed': '',
                   'crossref': False,
                   'first_time': False}
