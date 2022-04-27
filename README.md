@@ -7,6 +7,11 @@ Use the script _[create_database.sql](./create_database.sql)_    to create the d
 ## Database configuration file
 You must properly configure the _[config_app.py](./config_app.py)_ file
 ```
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+class Config_DB(object):
+
     DATABASE_CONFIG = {'host': '',
                        'user': 'lbmcf',
                        'password': '',
@@ -20,10 +25,17 @@ You must properly configure the _[config_app.py](./config_app.py)_ file
 ## Application configuration file (Back-end)
 You must properly configure the _[config_db.py](./config_db.py)_ file
 ```
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+class Config_App(object):
+
     APP_CONFIG = {'python_path': '',
                   'app_path': '',
                   'query_scopus': '',
                   'query_pubmed': '',
+                  'api_key_scopus': '',
+                  'api_key_pubmed': '',
                   'crossref': False,
                   'first_time': False}
 ```
@@ -31,6 +43,8 @@ You must properly configure the _[config_db.py](./config_db.py)_ file
 - **app_path**: Absolute path of the application folder (scientific_database path)
 - **query_scopus**: Keywords to search in Scopus
 - **query_pubmed**: Keywords to search PubMed
+- **api_key_scopus**: Scopus API Key. [Here](https://dev.elsevier.com), more information to get your key. (**Required**)
+- **api_key_pubmed**: PubMed API Key. [Here](https://ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities), more information to get your key. (Default: '')
 - **crossref**: Flag (True or False) that allows complementary data searches from [Crossref](https://www.crossref.org). (Default: False)
 - **first_time**: Flag (True or False) that indicates if it is the first time the application will be executed (Back-end). (Default: False)
 
