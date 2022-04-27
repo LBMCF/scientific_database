@@ -5,7 +5,7 @@ Automated database that stores information on scientific articles from Scopus an
 Use the script _[create_database.sql](./create_database.sql)_    to create the database in MySQL
 
 ## Database configuration file
-You must properly configure the _config_app.py_ file
+You must properly configure the _[config_app.py](./config_app.py)_ file
 ```
     DATABASE_CONFIG = {'host': '',
                        'user': 'lbmcf',
@@ -18,7 +18,7 @@ You must properly configure the _config_app.py_ file
 - **db**: Name of the database
 
 ## Application configuration file (Back-end)
-You must properly configure the _config_db.py_ file
+You must properly configure the _[config_db.py](./config_db.py)_ file
 ```
     APP_CONFIG = {'python_path': '',
                   'app_path': '',
