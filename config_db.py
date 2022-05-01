@@ -3,7 +3,7 @@
 
 class Config_DB(object):
 
-    DATABASE_CONFIG = {'host': '127.0.0.1',
+    DATABASE_CONFIG = {'host': '',
                        'user': 'lbmcf',
-                       'password': 'P@55w0rd',
+                       'password': '',
                        'db': 'publication_db'}
