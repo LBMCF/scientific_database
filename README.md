@@ -31,8 +31,8 @@ You must properly configure the _[config_app.py](./config_app.py)_ file
 ```
 - **python_path**: Absolute path of the Python 3 executable
 - **app_path**: Absolute path of the application folder (scientific_database path)
-- **query_scopus**: Keywords to search in Scopus
-- **query_pubmed**: Keywords to search PubMed
+- **query_scopus**: Boolean keywords to search in Scopus
+- **query_pubmed**: Boolean keywords to search PubMed
 - **api_key_scopus**: Scopus API Key. [Here](https://dev.elsevier.com), more information to get your key. (**Required**)
 - **api_key_pubmed**: E-utilities API Key. [Here](https://ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities), more information to get your key. (Default: '')
 - **crossref**: Flag (True or False) that allows complementary data searches from [Crossref](https://www.crossref.org). (Default: False)
