@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import os
+import re
 import sys
 import time
 import traceback
@@ -12,7 +13,6 @@ from crossref.restful import Works
 from config_app import Config_App
 from database import Database
 init()
-from pprint import pprint
 
 class Publication:
 
@@ -252,9 +252,6 @@ class Publication:
                     record_updated[self.odb.DB_PUBLICATION_TODAY_LANGUAGE] = item_pubmed[self.odb.DB_PUBLICATION_TODAY_LANGUAGE]
                     records_with_doi.update({doi: record_updated})
 
-        # pprint(records_without_doi)
-        # pprint(records_with_doi)
-
         self.show_print("Publications with DOI: %s" % len(records_with_doi), [self.LOG_FILE], font = self.YELLOW)
         self.show_print("Publications without DOI: %s" % len(records_without_doi), [self.LOG_FILE], font = self.YELLOW)
         self.show_print("", [self.LOG_FILE])
@@ -478,50 +475,12 @@ class Publication:
         return r
 
     def get_complement(self, doi):
-        '''
-                 'assertion': [{'label': 'This article is maintained by',
-                                'name': 'publisher',
-                                'value': 'Elsevier'},
-                               {'label': 'Content Type',
-                                'name': 'content_type',
-                                'value': 'article'},
-                               {'label': 'CrossRef DOI link to publisher maintained version',
-                                'name': 'articlelink',
-                                'value': 'https://doi.org/10.1016/j.ecss.2022.107791'},
-
-                 'author': [{'affiliation': [],
-                             'family': 'Fernandes',
-                             'given': 'Sheryl Oliveira',
-                             'sequence': 'first'},
-                            {'ORCID': 'http://orcid.org/0000-0001-9074-2902',
-                             'affiliation': [],
-                             'authenticated-orcid': False,
-                             'family': 'Gonsalves',
-                             'given': 'Maria Judith',
-                             'sequence': 'additional'},
-
-                 'language': 'en',
-                 'publisher': 'Elsevier BV',
-                 'is-referenced-by-count': 0,
-                 'type': 'journal-article',
-
-                 'deposited': {'date-parts': [[2022, 4, 23]],
-                               'date-time': '2022-04-23T14:14:59Z',
-                               'timestamp': 1650723299000},
-                 'indexed': {'date-parts': [[2022, 4, 23]],
-                             'date-time': '2022-04-23T14:41:01Z',
-                             'timestamp': 1650724861856},
-        '''
         complement = {}
         try:
             works = Works()
             response = works.doi(doi)
-            # pprint(response)
 
             if response:
-                # response['reference'] = ''
-                # pprint(response)
-
                 complement = {self.crossref_get_abstract: None,
                               self.crossref_get_document_type: None,
                               self.crossref_get_cited_by: None,
@@ -533,6 +492,22 @@ class Publication:
                 _abstract = None
                 if self.crossref_abstract in response:
                     _abstract = response[self.crossref_abstract]
+                    _abstract = _abstract.replace('>Abstract<', '><')
+                    _abstract = _abstract.replace('>Background<', '>Background:<')
+                    _abstract = _abstract.replace('>Result<', '>Result:<')
+                    _abstract = _abstract.replace('>Results<', '>Results:<')
+                    _abstract = _abstract.replace('>Conclusion<', '>Conclusion:<')
+                    _abstract = _abstract.replace('>Conclusions<', '>Conclusions:<')
+
+                    # Tags
+                    regex = re.compile('[<][/]?[a-z|A-Z]*[0-9]*[:][a-z|A-Z]*[>]', re.IGNORECASE)
+                    _abstract = regex.sub('', _abstract)
+
+                    # New line
+                    regex = re.compile('[\\n][\s]*', re.IGNORECASE)
+                    _abstract = regex.sub(' ', _abstract)
+
+                    _abstract = _abstract.strip()
                 complement.update({self.crossref_get_abstract: _abstract})
 
                 _document_type = None
@@ -575,7 +550,7 @@ class Publication:
                     _date = response[self.crossref_deposited][self.crossref_deposited_date_parts]
                     _year = str(_date[0][0])
                     _month = str(_date[0][1]).zfill(2)
-                    _day = str(_date[0][2])
+                    _day = str(_date[0][2]).zfill(2)
                     _deposited = _year + _month + _day
                 complement.update({self.crossref_get_deposited_date: _deposited})
         except Exception as e:
@@ -603,8 +578,6 @@ class Publication:
 
                         _complement = self.get_complement(_doi)
                         if _complement:
-                            # pprint(_complement)
-
                             _abstract = _complement[self.crossref_get_abstract]
                             if _abstract:
                                 if not publication[self.odb.DB_PUBLICATION_TODAY_ABSTRACT]:
