@@ -10,10 +10,9 @@ from tqdm import tqdm
 from urllib.parse import quote
 from requests.exceptions import Timeout
 from colorama import init
-init()
-from pprint import pprint
 from config_app import Config_App
 from database import Database
+init()
 
 class Scopus:
 
@@ -198,7 +197,6 @@ class Scopus:
                                     dict_responses.update({group: self.STATUS_TIMEOUT})
 
                                 pbar.update(1)
-                    # pprint(dict_responses)
 
                     for index_i, _response in dict_responses.items():
                         _data = json.loads(_response.text)
@@ -206,11 +204,8 @@ class Scopus:
                         # _totalResults = _data_results[self.SCOPUS_TOTAL_RESULTS]
 
                         _publications = _data_results[self.SCOPUS_ITEMS]
-                        # pprint(_publications)
 
                         for index_j, item in enumerate(_publications, start = 1):
-                            # pprint(item)
-
                             dict_affiliation = {}
                             if self.SCOPUS_AFFILIATION in item:
                                 for i, affil in enumerate(item[self.SCOPUS_AFFILIATION]):
