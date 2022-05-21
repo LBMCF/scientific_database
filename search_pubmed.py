@@ -10,7 +10,6 @@ from colorama import init
 from config_app import Config_App
 from database import Database
 init()
-from pprint import pprint
 
 class Pubmed:
 
